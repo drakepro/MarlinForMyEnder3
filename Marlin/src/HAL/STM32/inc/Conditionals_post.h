@@ -16,7 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  */
 #pragma once
@@ -26,4 +26,9 @@
   #define SDCARD_EEPROM_EMULATION
 #elif EITHER(I2C_EEPROM, SPI_EEPROM)
   #define USE_SHARED_EEPROM 1
+#endif
+
+// Some STM32F4 boards may lose steps when saving to EEPROM during print (PR #17946)
+#if defined(STM32F4xx) && ENABLED(FLASH_EEPROM_EMULATION) && PRINTCOUNTER_SAVE_INTERVAL > 0
+  #define PRINTCOUNTER_SYNC 1
 #endif
